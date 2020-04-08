@@ -1,7 +1,7 @@
 /* @flow */
 
-import {outputFileSync, pathExistsSync, mkdirSync} from "fs-extra"
-import {spawn, ChildProcess} from "child_process"
+import {mkdirSync, outputFileSync, pathExistsSync} from "fs-extra"
+import {ChildProcess, spawn} from "child_process"
 import {join, resolve} from "path"
 import {app} from "electron"
 import _merge from "lodash/merge"
