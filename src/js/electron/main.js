@@ -19,8 +19,30 @@ import path from "path"
 import {ZQD} from "../zqd/zqd"
 import electronIsDev from "./isDev"
 import {setupAutoUpdater} from "./autoUpdater"
+import log from "electron-log"
+
+function setupPaths() {
+  if (electronIsDev) {
+    app.setPath("userData", path.join(app.getAppPath(), "userData"))
+    app.setPath("logs", path.join(app.getPath("userData"), "logs"))
+    log.transports.file.resolvePath = (variables) => {
+      return path.join(app.getPath("logs"), variables.fileName)
+    }
+  }
+}
 
 async function main() {
+  setupPaths()
+  log.info("main, ", log.transports.file.file)
+  log.info(
+    "app getPath: logs",
+    app.getPath("logs"),
+    "appData",
+    app.getPath("appData"),
+    "userData",
+    app.getPath("userData")
+  )
+
   if (handleSquirrelEvent(app)) return
   let session = tron.session()
   let winMan = tron.windowManager()
